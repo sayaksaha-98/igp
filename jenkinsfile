@@ -21,5 +21,24 @@ pipeline {
 				sh 'mvn package'
 			}
 		}
+		stage('Build Docker Image') {
+			steps {
+				sh 'cp /var/lib/jenkins/workspace/$JOB_NAME/target/abc-technologies-app.war /var/lib/jenkins/workspace/$JOB_NAME/abc.war'
+				sh 'docker build -t sayaksaha98/abc_tech:$BUILD_NUMBER .'
+			}
+		}
+		stage('Push Docker Image') {
+			steps {
+				withDockerRegistry([ credentialsId: "dockerhub", url: "" ])
+				{
+					sh 'docker push sayaksaha98/abc_tech:$BUILD_NUMBER'
+				}
+			}
+		}
+		stage('Deploy as Container') {
+			steps {
+				sh 'docker run -itd -P sayaksaha98/abc_tech:$BUILD_NUMBER'
+			}
+		}
 	}
 }
