@@ -48,5 +48,11 @@ pipeline {
 					"""
 			}
 		}
+		stage('Deploy to Kubernates') {
+			steps {
+				sh "sed -i 's/abc_tech:latest/abc_tech:$BUILD_NUMBER/g' abc_tech.yaml"
+				sh 'kubectl apply -f abc_tech.yaml'
+			}
+		}
 	}
 }
