@@ -23,7 +23,7 @@ pipeline {
 		}
 		stage('Build Docker Image') {
 			steps {
-				sh 'cp /var/lib/jenkins/workspace/$JOB_NAME/target/abc-technologies-app.war /var/lib/jenkins/workspace/$JOB_NAME/abc.war'
+				sh 'cp /var/lib/jenkins/workspace/$JOB_NAME/target/ABCtechnologies-1.0.war /var/lib/jenkins/workspace/$JOB_NAME/abc.war'
 				sh 'docker build -t sayaksaha98/abc_tech:$BUILD_NUMBER .'
 			}
 		}
